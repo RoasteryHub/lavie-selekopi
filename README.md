@@ -7,6 +7,7 @@ itu di atas masih ndak tau make yang mana
 
 ### Aplikasi Android
   * Back-end Python Image Processing pake Lib OpenCV
+  * Rujukan buku : Practical Python and OpenCV by Adrian Rosebrock
   
 ### Pake Micro Controller
   * Belum riset, baru di usulin ide tadi sama bang Nanda lul
