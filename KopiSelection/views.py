@@ -35,6 +35,11 @@ def detection(request):
 
         ### START WRAPPING OF COMPUTER VISION APP
         # Insert code here to process the image and update
+
+        # Otsu's thresholding after Gaussian filtering
+        blur = cv2.GaussianBlur(image, (5, 5), 0)
+        ret3, th3 = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
         # the `data` dictionary with your results
         ### END WRAPPING OF COMPUTER VISION APP
 
