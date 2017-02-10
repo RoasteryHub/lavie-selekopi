@@ -1,26 +1,24 @@
 import cv2
 import numpy as np
+import requests
+import base64
 
-img = cv2.imread('/Users/iampamungkas/Downloads/cherries.jpg',0)
+url ="http://127.0.0.1:8000/KopiSelection/"
 
-# global thresholding
-ret1,th1 = cv2.threshold(img,127,255,cv2.THRESH_BINARY)
+#img = cv2.imread('/Users/iampamungkas/Downloads/cherries.jpg',0)
 
-# Otsu's thresholding
-ret2,th2 = cv2.threshold(img,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+image = cv2.imread("/Users/iampamungkas/Downloads/cherries.jpg")
+payload = {"image": open("/Users/iampamungkas/Downloads/cherries.jpg", "rb")}
 
-# Otsu's thresholding after Gaussian filtering
-blur = cv2.GaussianBlur(img,(5,5),0)
-ret3,th3 = cv2.threshold(blur,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+#payload = {"path": "/Users/iampamungkas/Downloads/cherries.jpg"}
 
-# plot all the images and their histograms
-images = [img, 0, th1,
-          img, 0, th2,
-          blur, 0, th3]
-titles = ['Original Noisy Image','Histogram','Global Thresholding (v=127)',
-          'Original Noisy Image','Histogram',"Otsu's Thresholding",
-          'Gaussian filtered Image','Histogram',"Otsu's Thresholding"]
+r = requests.post(url, files=payload).json()
 
+#print "/Users/iampamungkas/Downloads/cherries.jpg: {}".format(r)
 
-cv2.imshow("Nyoba",th3)
+img = base64.b64decode(r["image"])
+npimg = np.frombuffer(img, dtype="uint8");
+source = cv2.imdecode(npimg, 0)
+
+cv2.imshow("Nyoba",npimg)
 cv2.waitKey(0)

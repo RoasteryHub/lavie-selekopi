@@ -6,6 +6,7 @@ import numpy as np
 import urllib
 import json
 import cv2
+import base64
 
 
 @csrf_exempt
@@ -35,11 +36,12 @@ def detection(request):
 
         ### START WRAPPING OF COMPUTER VISION APP
         # Insert code here to process the image and update
-
+        img_grey = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         # Otsu's thresholding after Gaussian filtering
-        blur = cv2.GaussianBlur(image, (5, 5), 0)
-        ret3, th3 = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-
+        blur = cv2.GaussianBlur(img_grey, (5, 5), 0)
+        retval,th3 = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+        retval,buffer = cv2.imencode('.jpg',th3)
+        data["image"]= base64.b64encode(buffer)
         # the `data` dictionary with your results
         ### END WRAPPING OF COMPUTER VISION APP
 
@@ -53,7 +55,7 @@ def detection(request):
 def _grab_image(path=None, stream=None, url=None):
     # if the path is not None, then load the image from disk
     if path is not None:
-        image = cv2.imread(path)
+        image = cv2.imread(path,0)
 
     # otherwise, the image does not reside on disk
     else:
@@ -65,7 +67,6 @@ def _grab_image(path=None, stream=None, url=None):
         # if the stream is not None, then the image has been uploaded
         elif stream is not None:
             data = stream.read()
-
         # convert the image to a NumPy array and then read it into
         # OpenCV format
         image = np.asarray(bytearray(data), dtype="uint8")
