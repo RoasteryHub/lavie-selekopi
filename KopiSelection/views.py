@@ -37,12 +37,22 @@ def detection(request):
         ### START WRAPPING OF COMPUTER VISION APP
         # Insert code here to process the image and update
         img_grey = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
         # Otsu's thresholding after Gaussian filtering
-        blur = cv2.GaussianBlur(img_grey, (5, 5), 0)
+        #blur = cv2.GaussianBlur(img_grey, (5, 5), 0)
+        blur = cv2.bilateralFilter(img_grey, 5,200,200)
         retval,th3 = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-        retval,buffer = cv2.imencode('.jpg',th3)
-        data["image"]= base64.b64encode(buffer)
+        #th3 = cv2.adaptiveThreshold(blur, 255, cv2.ADAPTIVE_THRESH_MEAN_C,cv2.THRESH_BINARY, 11, 2)
+
+        #Final Step
+
+        #Countour drawing
+        im2, contours, hierarchy = cv2.findContours(th3, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        cv2.drawContours(image, contours, -1, (0, 255, 0), 1)
+
         # the `data` dictionary with your results
+        retval, buffer = cv2.imencode('.jpg',th3)
+        data["image"] = base64.b64encode(buffer)
         ### END WRAPPING OF COMPUTER VISION APP
 
         # update the data dictionary
