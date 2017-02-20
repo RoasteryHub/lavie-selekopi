@@ -1,13 +1,10 @@
 #Programming Club Seleksi Tahap 2
 Sortasi Kopi Pasca Panen
-##Teknologi
-   * Aplikasi Android
-   * Pake Micro-controller
-itu di atas masih ndak tau make yang mana
-
-### Aplikasi Android
-  * Back-end Python Image Processing pake Lib OpenCV
-  * Rujukan buku : Practical Python and OpenCV by Adrian Rosebrock
-  
-### Pake Micro Controller
-  * Belum riset, baru di usulin ide tadi sama bang Nanda lul
+##Back-End (69%)
+        Python + Django + OpenCV
+Overall sih detection nya udah jaid cuman fitur lainya belum
+###Cara nyoba nya
+    * Di clone
+    * hidupin serper nya
+    * di test_api.py gambar nya diganti
+    * jalanin test_api.py lewat terminal
