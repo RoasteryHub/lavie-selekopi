@@ -35,23 +35,51 @@ def detection(request):
             image = _grab_image(url=url)
 
         ### START WRAPPING OF COMPUTER VISION APP
+        #v1 = useless until
         # Insert code here to process the image and update
-        img_grey = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        #img_grey = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
         # Otsu's thresholding after Gaussian filtering
         #blur = cv2.GaussianBlur(img_grey, (5, 5), 0)
-        blur = cv2.bilateralFilter(img_grey, 5,200,200)
-        retval,th3 = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+        #blur = cv2.bilateralFilter(img_grey, 5,200,200)
+        #retval,th3 = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         #th3 = cv2.adaptiveThreshold(blur, 255, cv2.ADAPTIVE_THRESH_MEAN_C,cv2.THRESH_BINARY, 11, 2)
+        #v1 ends here
 
+        #v2 start here
+        #Let's try something here
+        redUpper = np.array([207,128,255],np.uint8)
+        redLower = np.array([0,00,159],np.uint8)
+
+        #convert to HSV if we wan tto use video as input
+        #hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+        #Construct mask for the ripe one
+        mask = cv2.inRange(image, redLower, redUpper)
+        mask = cv2.erode(mask, None, iterations=2)
+        mask = cv2.dilate(mask, None, iterations=2)
         #Final Step
 
         #Countour drawing
-        im2, contours, hierarchy = cv2.findContours(th3, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-        cv2.drawContours(image, contours, -1, (0, 255, 0), 1)
+        im2, contours, hierarchy = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        for c in contours:
+            #compute the center
+            #M = cv2.moments(c)
+            #cX = int(M["m10"]/M["m00"])
+            #cY = int(M["m01"] / M["m00"])
+
+            # draw the contour and center of the shape on the image
+            #cv2.drawContours(image, [c], -1, (0, 255, 0), 2)
+            #cv2.circle(image, (cX, cY), 7, (255, 255, 255), -1)
+            (x, y), radius = cv2.minEnclosingCircle(c)
+            center = (int(x), int(y))
+            radius = int(radius)
+            if (radius>15)and(radius<=60):
+                cv2.circle(image, center, radius, (0, 255, 0), 2)
+                cv2.putText(image, "Matang", (int(x),int(y)),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
         # the `data` dictionary with your results
-        retval, buffer = cv2.imencode('.jpg',th3)
+        retval, buffer = cv2.imencode('.jpg',image)
         data["image"] = base64.b64encode(buffer)
         ### END WRAPPING OF COMPUTER VISION APP
 

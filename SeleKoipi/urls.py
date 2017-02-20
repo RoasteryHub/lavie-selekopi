@@ -18,6 +18,5 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^KopiSelection/', include('KopiSelection.urls')),
-    url(r'^ShapeDetection/', include('ShapeDetector.urls')),
     url(r'^admin/', admin.site.urls),
 ]
