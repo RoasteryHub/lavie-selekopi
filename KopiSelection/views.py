@@ -74,7 +74,7 @@ def detection(request):
             (x, y), radius = cv2.minEnclosingCircle(c)
             center = (int(x), int(y))
             radius = int(radius)
-            if (radius>15)and(radius<=60):
+            if (radius>15)and(radius<=80):
                 cv2.circle(image, center, radius, (0, 255, 0), 2)
                 cv2.putText(image, "Matang", (int(x),int(y)),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
@@ -87,6 +87,7 @@ def detection(request):
         data["success"] = True
 
     # return a JSON response
+    #data = json.dumps(data)
     return JsonResponse(data)
 
 

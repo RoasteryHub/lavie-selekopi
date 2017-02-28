@@ -8,12 +8,13 @@ url ="http://127.0.0.1:8000/KopiSelection/"
 #img = cv2.imread('/Users/iampamungkas/Downloads/cherries.jpg',0)
 
 #image = cv2.imread("/Users/iampamungkas/Downloads/cherries.jpg")
-payload = {"image": open("/Users/iampamungkas/Downloads/dummy.jpg", "rb")}
 
 #payload = {"path": "/Users/iampamungkas/Downloads/cherries.jpg"}
+payload = {"image": open("/Users/iampamungkas/Downloads/dummy.jpg", "rb")}
+
 
 r = requests.post(url, files=payload).json()
-
+print r;
 #print "/Users/iampamungkas/Downloads/cherries.jpg: {}".format(r)
 
 img = base64.b64decode(r["image"])
