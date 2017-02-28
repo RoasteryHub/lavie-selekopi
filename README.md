@@ -14,7 +14,7 @@ Back-end dari SeleKopi adalah sebuah Django server dengan Image Prosseing menggu
 
 ##KonVeyor
 Kedepanya SeleKopi akan diimplementasikan ke sebuah Alat Konveyor yang dapat digunakan oleh koperasi koperasi petani untuk mempercepat sortasi.
-
+[![IMAGE ALT TEXT HERE](https://www.youtube.com/watch?v=72VDbO8vKdU/0.jpg)](https://www.youtube.com/watch?v=72VDbO8vKdU)
 ##Demo
     1. Clone Back-End
     2. Hidupin server(gunakan host yang bisa di akses dari hp)
