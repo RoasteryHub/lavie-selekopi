@@ -10,7 +10,7 @@ url ="http://127.0.0.1:8000/KopiSelection/"
 #image = cv2.imread("/Users/iampamungkas/Downloads/cherries.jpg")
 
 #payload = {"path": "/Users/iampamungkas/Downloads/cherries.jpg"}
-payload = {"image": open("/Users/iampamungkas/Downloads/dummy.jpg", "rb")}
+payload = {"image": open("/Users/iampamungkas/Downloads/dummy-2.jpg", "rb")}
 
 
 r = requests.post(url, files=payload).json()

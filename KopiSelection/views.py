@@ -76,7 +76,7 @@ def detection(request):
             radius = int(radius)
             if (radius>15)and(radius<=80):
                 cv2.circle(image, center, 1, (0, 255, 0), 2)
-                cv2.putText(image, "Matang", (int(x),int(y)),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+                cv2.putText(image, "Ripe", (int(x),int(y)),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
         # the `data` dictionary with your results
         retval, buffer = cv2.imencode('.jpg',image)
