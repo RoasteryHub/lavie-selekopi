@@ -86,6 +86,7 @@ def detection(request):
                 cv2.circle(image, center, 1, (0, 255, 0), 2)
                 cv2.putText(image, "Ripe", (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
+
         im2, contours, hierarchy = cv2.findContours(green_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         for c in contours:
             # compute the center
