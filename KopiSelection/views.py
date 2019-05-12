@@ -52,7 +52,8 @@ def detection(request):
         # Let's try something here
         red_upper = np.array([207, 128, 255], np.uint8)
         red_lower = np.array([0, 00, 159], np.uint8)
-
+        green_upper = np.array([0, 00, 159], np.uint8)
+        green_lower = np.array([0, 00, 70], np.uint8)
         # convert to HSV if we wan tto use video as input
         # hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
@@ -61,6 +62,10 @@ def detection(request):
         mask = cv2.erode(mask, None, iterations=2)
         mask = cv2.dilate(mask, None, iterations=2)
 
+
+        green_mask = cv2.inRange(image, green_lower, green_upper)
+        green_mask = cv2.erode(green_mask, None, iterations=2)
+        green_mask = cv2.dilate(green_mask, None, iterations=2)
         # Final Step
 
         # Countour drawing
@@ -80,6 +85,25 @@ def detection(request):
             if (radius > 15) and (radius <= 80):
                 cv2.circle(image, center, 1, (0, 255, 0), 2)
                 cv2.putText(image, "Ripe", (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+
+
+        im2, contours, hierarchy = cv2.findContours(green_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        for c in contours:
+            # compute the center
+            # M = cv2.moments(c)
+            # cX = int(M["m10"]/M["m00"])
+            # cY = int(M["m01"] / M["m00"])
+
+            # draw the contour and center of the shape on the image
+            # cv2.drawContours(image, [c], -1, (0, 255, 0), 2)
+            # cv2.circle(image, (cX, cY), 7, (255, 255, 255), -1)
+            (x, y), radius = cv2.minEnclosingCircle(c)
+            center = (int(x), int(y))
+            radius = int(radius)
+            if (radius > 15) and (radius <= 80):
+                cv2.circle(image, center, 1, (0, 255, 0), 2)
+                cv2.putText(image, "Not Ripe", (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+
 
         # the `data` dictionary with your results
         retval, buffer = cv2.imencode('.jpg', image)
