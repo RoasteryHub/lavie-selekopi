@@ -52,8 +52,8 @@ def detection(request):
         # Let's try something here
         red_upper = np.array([207, 128, 255], np.uint8)
         red_lower = np.array([0, 00, 159], np.uint8)
-        green_upper = np.array([0, 00, 159], np.uint8)
-        green_lower = np.array([0, 00, 70], np.uint8)
+        green_upper = np.array([40, 171, 139], np.uint8)
+        green_lower = np.array([12, 38, 12], np.uint8)
         # convert to HSV if we wan tto use video as input
         # hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
@@ -71,14 +71,6 @@ def detection(request):
         # Countour drawing
         im2, contours, hierarchy = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         for c in contours:
-            # compute the center
-            # M = cv2.moments(c)
-            # cX = int(M["m10"]/M["m00"])
-            # cY = int(M["m01"] / M["m00"])
-
-            # draw the contour and center of the shape on the image
-            # cv2.drawContours(image, [c], -1, (0, 255, 0), 2)
-            # cv2.circle(image, (cX, cY), 7, (255, 255, 255), -1)
             (x, y), radius = cv2.minEnclosingCircle(c)
             center = (int(x), int(y))
             radius = int(radius)
@@ -89,14 +81,6 @@ def detection(request):
 
         im2, contours, hierarchy = cv2.findContours(green_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         for c in contours:
-            # compute the center
-            # M = cv2.moments(c)
-            # cX = int(M["m10"]/M["m00"])
-            # cY = int(M["m01"] / M["m00"])
-
-            # draw the contour and center of the shape on the image
-            # cv2.drawContours(image, [c], -1, (0, 255, 0), 2)
-            # cv2.circle(image, (cX, cY), 7, (255, 255, 255), -1)
             (x, y), radius = cv2.minEnclosingCircle(c)
             center = (int(x), int(y))
             radius = int(radius)
